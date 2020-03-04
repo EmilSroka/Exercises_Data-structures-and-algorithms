@@ -1,0 +1,1 @@
+Exercises from [The Ultimate Data Structures & Algorithms](https://codewithmosh.com/p/data-structures-algorithms) course and my solutions. 
