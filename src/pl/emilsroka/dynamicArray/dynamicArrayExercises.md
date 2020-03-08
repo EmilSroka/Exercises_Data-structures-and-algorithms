@@ -11,3 +11,10 @@ Class have to contain the following methods:
 - indexOf - return index of given element. If array doesn't contain element, method should return -1.  
 - toString - return string representation of the array
 You can implement class as generic.
+
+## Exercise 2
+Extend the Array class and add a three new methods:
+ - max - return greatest value
+ - min - return lowest value
+ - minmax - return array of two elements. First element should be minimum value and second maximum value.
+You can also implement method to find n’th smallest element (order statistic).

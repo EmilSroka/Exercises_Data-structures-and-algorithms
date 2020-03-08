@@ -1,6 +1,8 @@
 package pl.emilsroka.dynamicArray.end;
 
-public class DynamicArray<E> {
+import java.lang.reflect.Array;
+
+public class DynamicArray<E extends Comparable<E>> {
     private Object[] memory;
     private int lastIndex;
 
@@ -45,6 +47,92 @@ public class DynamicArray<E> {
             }
         }
         return -1;
+    }
+
+    public E max(){
+        if(lastIndex == -1){
+            throw new RuntimeException("Array is empty");
+        }
+
+        Object currentMax =  memory[0];
+        for(var i=1; i<=lastIndex; i++){
+            if( ((E)memory[i]).compareTo((E)currentMax) > 0){
+                currentMax = memory[i];
+            }
+        }
+        return (E)currentMax;
+    }
+
+    public E min(){
+        if(lastIndex == -1){
+            throw new RuntimeException("Array is empty");
+        }
+
+        Object currentMin = memory[0];
+        for(var i=1; i<=lastIndex; i++){
+            if( ((E)memory[i]).compareTo((E)currentMin) < 0){
+                currentMin = memory[i];
+            }
+        }
+        return (E)currentMin;
+    }
+
+    public Object[] minmax(){
+        if(lastIndex == -1){
+            throw new RuntimeException("Array is empty");
+        }
+
+        Object currentMin;// =  lastIndex >= 0 ? memory[0] : new Object();
+        Object currentMax;
+        int startingIndex;
+
+        if( lastIndex % 2 == 0 ){
+            currentMax = currentMin = memory[0];
+            startingIndex = 1;
+        } else {
+            if( ((E)memory[0]).compareTo((E)memory[1]) > 0){
+                currentMax = memory[0];
+                currentMin = memory[1];
+            } else {
+                currentMax = memory[1];
+                currentMin = memory[0];
+            }
+            startingIndex = 2;
+        }
+
+
+        for(var i=startingIndex; i<=lastIndex; i += 2) {
+            E greater, smaller;
+            if (((E) memory[i]).compareTo((E) memory[i+1]) > 0) {
+                greater = (E) memory[i];
+                smaller = (E) memory[i+1];
+            } else {
+                greater = (E) memory[i+1];
+                smaller = (E) memory[i];
+            }
+
+            if (((E) currentMax).compareTo(greater) < 0) {
+                currentMax = greater;
+            }
+            if (((E) currentMin).compareTo(smaller) > 0) {
+                currentMin = smaller;
+            }
+        }
+
+        return  new Object[]{currentMin, currentMax};
+    }
+
+    public String toString(){
+        var builder = new StringBuilder();
+        builder.append("[");
+        for(var i = 0; i<=lastIndex; i++){
+            builder.append(memory[i].toString());
+            if(i != lastIndex){
+                builder.append(", ");
+            }
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
     private void validateIndex(int index){
