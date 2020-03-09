@@ -1,6 +1,8 @@
 package pl.emilsroka.dynamicArray.end;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Random;
 
 public class DynamicArray<E extends Comparable<E>> {
     private Object[] memory;
@@ -122,6 +124,23 @@ public class DynamicArray<E extends Comparable<E>> {
         return  new Object[]{currentMin, currentMax};
     }
 
+    public E nthElement(int n){
+        if (n > lastIndex + 1 || n < 1){
+            throw new IllegalArgumentException(
+                String.format(
+                    "Given order statistic (%d) is illegal (%d - %d).",
+                    n,
+                    1,
+                    lastIndex+1
+                )
+            );
+        }
+
+        Object[] memoryCopy = new Object[lastIndex+1];
+        System.arraycopy(memory, 0, memoryCopy, 0, lastIndex+1);
+        return randomizedSelect(n, memoryCopy, 0, lastIndex);
+    }
+
     public String toString(){
         var builder = new StringBuilder();
         builder.append("[");
@@ -187,5 +206,47 @@ public class DynamicArray<E extends Comparable<E>> {
         if(end + offset > lastIndex){
             lastIndex = end + offset;
         }
+    }
+
+    private E randomizedSelect(int n, Object[] array, int firstElement, int lastElement){
+        if(firstElement == lastElement) {
+            return (E) array[firstElement];
+        }
+        int pivot = randomizedPartitioning(array, firstElement, lastElement);
+        int leftPartLength = pivot - firstElement + 1;
+        if(n <= leftPartLength){
+            return randomizedSelect(n, array, firstElement, pivot);
+        } else {
+            return randomizedSelect(n - leftPartLength, array, pivot+1, lastElement);
+        }
+    }
+
+    private int randomizedPartitioning(Object[] array, int firstElement, int lastElement){
+        Random generator = new Random();
+        int length = lastElement - firstElement + 1;
+        Object pivot = array[firstElement + generator.nextInt(length)];
+        int p = firstElement - 1;
+        int q = lastElement + 1;
+        while(true) {
+            do{
+                q--;
+            } while (((E) array[q]).compareTo((E) pivot) > 0);
+
+            do{
+                p++;
+            } while (((E) array[p]).compareTo((E) pivot) < 0);
+
+            if(p < q){
+                swap(array, p, q);
+            } else {
+                return q;
+            }
+        }
+    }
+
+    private void swap(Object[] array, int indexA, int indexB){
+        Object tmp = array[indexA];
+        array[indexA] = array[indexB];
+        array[indexB] = tmp;
     }
 }
