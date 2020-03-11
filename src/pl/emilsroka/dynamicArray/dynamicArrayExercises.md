@@ -8,7 +8,7 @@ Class have to contain the following methods:
 - insert - add element at the end of array
 - insertAt - add element at given index and shift all the items on the right one index to the right
 - removeAt - remove element at given index and shift all the items on the right one index to the left
-- indexOf - return index of given element. If array doesn't contain element, method should return -1.  
+- indexOf - return index of given element. If array doesn't contain element, method should return -1.  Use equals method to comparing objects.  
 - toString - return string representation of the array  
 
 You can implement class as generic.
@@ -17,9 +17,17 @@ You can implement class as generic.
 Extend the Array class and add a three new methods:
  - max - return greatest value
  - min - return lowest value
- - minmax - return array of two elements. First element should be minimum value and second maximum value.  
+ - minmax - return array of two elements. First element should be minimum value and second maximum value  
  
 You can also implement method to find n’th smallest element (order statistic).
 
 ## Exercise 3
-Implement iterator for dynamic array. Iterator when created, should be independent of iterable object state.  
+Implement iterator for dynamic array. Iterator when created, should be independent of iterable object state. 
+
+## Exercise 4
+Implement a three new methods in array class:
+- contains - return boolean that indicating whether a value is in array.
+- intersection - return new dynamic array that is an intersection of current object and given array.
+- union - return new dynamic array that is a union of current object and given array.
+
+ 

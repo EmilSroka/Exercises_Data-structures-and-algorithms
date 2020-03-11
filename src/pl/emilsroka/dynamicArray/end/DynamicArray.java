@@ -1,6 +1,7 @@
 package pl.emilsroka.dynamicArray.end;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
@@ -10,8 +11,27 @@ public class DynamicArray<E extends Comparable<E>> implements Iterable<E>{
     private int lastIndex;
 
     public DynamicArray(int size){
+        if (size < 0){
+            throw new IllegalArgumentException(
+                String.format(
+                    "Given size (%d) is illegal.",
+                    size
+                )
+            );
+        }
         lastIndex = -1;
         memory = new Object [size];
+    }
+
+    public DynamicArray(){
+        this(1);
+    }
+
+    public DynamicArray(DynamicArray<E> origin){
+        this(1);
+        for(var element : origin){
+            insert(element);
+        }
     }
 
     public void set(int index, E element){
@@ -44,13 +64,37 @@ public class DynamicArray<E extends Comparable<E>> implements Iterable<E>{
         memory[index] = element;
     }
 
-    public int indexOf(E wanted){
+    public int indexOf(E element){
         for(var i=0; i<=lastIndex; i++){
-            if(memory[i].equals(wanted)){
+            if(memory[i].equals(element)){
                 return i;
             }
         }
         return -1;
+    }
+
+    public boolean contains(E element){
+        return indexOf(element) != -1;
+    }
+
+    public DynamicArray<E> intersection(DynamicArray<E> anotherArray){
+        var result = new DynamicArray<E>();
+        for(var element : anotherArray){
+            if(contains(element)){
+                result.insert(element);
+            }
+        }
+        return result;
+    }
+
+    public DynamicArray<E> union(DynamicArray<E> anotherArray){
+        var result = new DynamicArray<E>(this);
+        for(var element : anotherArray){
+            if(!result.contains(element)){
+                result.insert(element);
+            }
+        }
+        return result;
     }
 
     public E max(){
