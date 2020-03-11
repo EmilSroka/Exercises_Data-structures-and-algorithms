@@ -9,12 +9,17 @@ Class have to contain the following methods:
 - insertAt - add element at given index and shift all the items on the right one index to the right
 - removeAt - remove element at given index and shift all the items on the right one index to the left
 - indexOf - return index of given element. If array doesn't contain element, method should return -1.  
-- toString - return string representation of the array
+- toString - return string representation of the array  
+
 You can implement class as generic.
 
 ## Exercise 2
 Extend the Array class and add a three new methods:
  - max - return greatest value
  - min - return lowest value
- - minmax - return array of two elements. First element should be minimum value and second maximum value.
+ - minmax - return array of two elements. First element should be minimum value and second maximum value.  
+ 
 You can also implement method to find n’th smallest element (order statistic).
+
+## Exercise 3
+Implement iterator for dynamic array. Iterator when created, should be independent of iterable object state.  

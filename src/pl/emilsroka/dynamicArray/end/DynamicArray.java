@@ -2,9 +2,10 @@ package pl.emilsroka.dynamicArray.end;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Random;
 
-public class DynamicArray<E extends Comparable<E>> {
+public class DynamicArray<E extends Comparable<E>> implements Iterable<E>{
     private Object[] memory;
     private int lastIndex;
 
@@ -23,12 +24,13 @@ public class DynamicArray<E extends Comparable<E>> {
         return (E)memory[index];
     }
 
-    public void insert(E element){
+    public DynamicArray<E> insert(E element){
         lastIndex += 1;
         if(lastIndex == memory.length){
             extendMemory();
         }
         memory[lastIndex] = element;
+        return this;
     }
 
     public void removeAt(int index){
@@ -79,39 +81,19 @@ public class DynamicArray<E extends Comparable<E>> {
         return (E)currentMin;
     }
 
-    public Object[] minmax(){
+    public DynamicArray<E> minmax(){
         if(lastIndex == -1){
             throw new RuntimeException("Array is empty");
         }
 
-        Object currentMin;// =  lastIndex >= 0 ? memory[0] : new Object();
-        Object currentMax;
-        int startingIndex;
-
-        if( lastIndex % 2 == 0 ){
-            currentMax = currentMin = memory[0];
-            startingIndex = 1;
-        } else {
-            if( ((E)memory[0]).compareTo((E)memory[1]) > 0){
-                currentMax = memory[0];
-                currentMin = memory[1];
-            } else {
-                currentMax = memory[1];
-                currentMin = memory[0];
-            }
-            startingIndex = 2;
-        }
-
+        E currentMin = (E)memory[0];
+        E currentMax = (E)memory[0];
+        int startingIndex = (lastIndex % 2 == 0) ? 1 : 0;
 
         for(var i=startingIndex; i<=lastIndex; i += 2) {
-            E greater, smaller;
-            if (((E) memory[i]).compareTo((E) memory[i+1]) > 0) {
-                greater = (E) memory[i];
-                smaller = (E) memory[i+1];
-            } else {
-                greater = (E) memory[i+1];
-                smaller = (E) memory[i];
-            }
+            var sorted = order(memory[i], memory[i+1]);
+            E greater = (E)sorted[0];
+            E smaller = (E)sorted[1];
 
             if (((E) currentMax).compareTo(greater) < 0) {
                 currentMax = greater;
@@ -121,7 +103,25 @@ public class DynamicArray<E extends Comparable<E>> {
             }
         }
 
-        return  new Object[]{currentMin, currentMax};
+        return new DynamicArray<E>(2).insert(currentMin).insert(currentMax);
+    }
+
+    public DynamicArray<E> alternativeMinmax(){
+        if(lastIndex == -1){
+            throw new RuntimeException("Array is empty");
+        }
+
+        Object currentMin = memory[0];
+        Object currentMax = memory[0];
+        for(var i=1; i<=lastIndex; i++){
+            if( ((E)memory[i]).compareTo((E)currentMin) < 0){
+                currentMin = memory[i];
+            }
+            if( ((E)memory[i]).compareTo((E)currentMax) > 0){
+                currentMax = memory[i];
+            }
+        }
+        return new DynamicArray<E>(2).insert((E)currentMin).insert((E)currentMax);
     }
 
     public E nthElement(int n){
@@ -139,6 +139,31 @@ public class DynamicArray<E extends Comparable<E>> {
         Object[] memoryCopy = new Object[lastIndex+1];
         System.arraycopy(memory, 0, memoryCopy, 0, lastIndex+1);
         return randomizedSelect(n, memoryCopy, 0, lastIndex);
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new DynamicArrayIterator();
+    }
+
+    public class DynamicArrayIterator implements Iterator<E>{
+        Object[] itMemory;
+        int indicator = 0;
+
+        DynamicArrayIterator(){
+            itMemory = new Object[lastIndex+1];
+            System.arraycopy(memory, 0, itMemory, 0, lastIndex+1);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return indicator < itMemory.length;
+        }
+
+        @Override
+        public E next() {
+            return (E)itMemory[indicator++];
+        }
     }
 
     public String toString(){
@@ -248,5 +273,17 @@ public class DynamicArray<E extends Comparable<E>> {
         Object tmp = array[indexA];
         array[indexA] = array[indexB];
         array[indexB] = tmp;
+    }
+
+    private Object[] order(Object element1, Object element2){
+        Object max, min;
+        if( ((E)element1).compareTo((E)element2) > 0){
+            max = element1;
+            min = element2;
+        } else {
+            max = element1;
+            min = element2;
+        }
+        return new Object[]{min, max};
     }
 }
