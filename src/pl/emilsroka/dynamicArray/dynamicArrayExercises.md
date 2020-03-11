@@ -28,6 +28,7 @@ Implement iterator for dynamic array. Iterator when created, should be independe
 Implement a three new methods in array class:
 - contains - return boolean that indicating whether a value is in array.
 - intersection - return new dynamic array that is an intersection of current object and given array.
-- union - return new dynamic array that is a union of current object and given array.
+- union - return new dynamic array that is a union of current object and given array.  
 
- 
+## Exercise 5
+Add two method to reverse the array. One of them should reverse array in place while second one should return new reversed array.

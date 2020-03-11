@@ -185,6 +185,17 @@ public class DynamicArray<E extends Comparable<E>> implements Iterable<E>{
         return randomizedSelect(n, memoryCopy, 0, lastIndex);
     }
 
+    public DynamicArray<E> reverseInPlace(){
+        for(var i=0; i+i<=lastIndex; i++){
+            swap(memory, i, lastIndex-i);
+        }
+        return this;
+    }
+
+    public DynamicArray<E> reverse(){
+        return new DynamicArray<E>(this).reverseInPlace();
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new DynamicArrayIterator();
