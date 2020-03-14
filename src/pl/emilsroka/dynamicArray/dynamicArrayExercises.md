@@ -30,5 +30,8 @@ Implement a three new methods in array class:
 - intersection - return new dynamic array that is an intersection of current object and given array.
 - union - return new dynamic array that is a union of current object and given array.  
 
-## Exercise 5
+## Exercise 5  
 Add two method to reverse the array. One of them should reverse array in place while second one should return new reversed array.
+
+## Exercise 6  
+Implement bubble sort. Use strategy pattern to extract algorithm to its own object.

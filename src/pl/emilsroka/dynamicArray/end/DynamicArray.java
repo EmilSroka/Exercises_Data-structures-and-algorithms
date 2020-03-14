@@ -1,14 +1,13 @@
 package pl.emilsroka.dynamicArray.end;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
+import pl.emilsroka.dynamicArray.end.sorting.SortingStrategy;
 import java.util.Iterator;
 import java.util.Random;
 
 public class DynamicArray<E extends Comparable<E>> implements Iterable<E>{
     private Object[] memory;
     private int lastIndex;
+    private SortingStrategy<E> sortingAlgorithm;
 
     public DynamicArray(int size){
         if (size < 0){
@@ -194,6 +193,14 @@ public class DynamicArray<E extends Comparable<E>> implements Iterable<E>{
 
     public DynamicArray<E> reverse(){
         return new DynamicArray<E>(this).reverseInPlace();
+    }
+
+    public void sort(){
+        sortingAlgorithm.sort(memory,0,lastIndex);
+    }
+
+    public void setSortingAlgorithm(SortingStrategy<E> sortingAlgorithm) {
+        this.sortingAlgorithm = sortingAlgorithm;
     }
 
     @Override
