@@ -17,13 +17,4 @@ public class BubbleSort<E extends Comparable<E>> implements SortingStrategy<E>{
             }
         }
     }
-    private void swap(Object[] array, int indexA, int indexB){
-        Object tmp = array[indexA];
-        array[indexA] = array[indexB];
-        array[indexB] = tmp;
-    }
-
-    private boolean isGrater(Object a, Object b){
-        return ((E)a).compareTo((E)b) > 0;
-    }
 }

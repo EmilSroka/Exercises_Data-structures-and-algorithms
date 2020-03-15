@@ -35,3 +35,6 @@ Add two method to reverse the array. One of them should reverse array in place w
 
 ## Exercise 6  
 Implement bubble sort. Use strategy pattern to extract algorithm to its own object.
+
+## Exercise 7
+Create new strategies for selection and insertion sort.
