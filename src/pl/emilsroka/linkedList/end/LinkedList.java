@@ -43,7 +43,8 @@ public class LinkedList<E> implements Iterable<E>{
         handleHead(current, current.next, index);
         remove(previous, current);
         length -= 1;
-        handleTail(previous, index);
+        handleTailOnDeletion(previous, index);
+
 
         return this;
     }
@@ -51,7 +52,6 @@ public class LinkedList<E> implements Iterable<E>{
     public LinkedList<E> deleteFirst(){
         return delete(0);
     }
-
 
     public LinkedList<E> deleteLast(){
         return delete(length - 1);
@@ -72,6 +72,23 @@ public class LinkedList<E> implements Iterable<E>{
         return -1;
     }
 
+    public int size(){
+        return length;
+    }
+
+    public void reverse() {
+        reverse(head);
+        swapHeadAndTail();
+    }
+
+    private void reverse(Node start){
+        if(start != null && start.next != null){
+            reverse(start.next);
+            start.next.next = start;
+            start.next = null;
+        }
+    }
+
     public String toString(){
         var stringRepresentation = new StringBuilder();
         stringRepresentation.append("[ ");
@@ -85,6 +102,16 @@ public class LinkedList<E> implements Iterable<E>{
         }
         stringRepresentation.append(" ]");
         return stringRepresentation.toString();
+    }
+
+    public Object[] toArray(){
+        var array = new Object[length];
+        var iterator = new LinkedListIterator();
+        while(iterator.hasNext()){
+            var value = iterator.next();
+            array[iterator.getIndex()] = value;
+        }
+        return array;
     }
 
     private Node<E> get(int index) throws IndexOutOfBoundsException{
@@ -140,7 +167,6 @@ public class LinkedList<E> implements Iterable<E>{
         }
     }
 
-
     private class Node<E>{
         public Node(E value, Node<E> next){
             this.next = next;
@@ -168,6 +194,11 @@ public class LinkedList<E> implements Iterable<E>{
         return index >= 0 && index < length;
     }
 
+    private void swapHeadAndTail(){
+        var tmp = head;
+        head = tail;
+        tail = tmp;
+    }
 
     private void insert(Node predecessor, Node element){
         if(predecessor != null){
@@ -191,8 +222,16 @@ public class LinkedList<E> implements Iterable<E>{
     }
 
     private void handleTail(Node newElement, int index){
-        if(index == length && length > 0){
+        if(index == length){
             tail = newElement;
         }
     }
+    private void handleTailOnDeletion(Node newElement, int index){
+        if(length == 0){
+            tail = null;
+        } else if(index == length){
+            tail = newElement;
+        }
+    }
+
 }
