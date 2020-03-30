@@ -9,13 +9,18 @@ Class have to contain the following methods:
 - deleteFirst - delete head
 - deleteLast - delete tail
 - delete - delete node at given index
-- contains - return boolean that indicates if given value is in list
-- indexOf - return index of node with given value (if exist)
 
 ## Exercise 2
 Implement below methods:
-- size - return number of nodes in linked list 
-- toArray - return array that contains values from nodes
+- size - returns number of nodes in linked list 
+- contains - returns boolean that indicates if given value is in list
+- indexOf - returns index of node with given value (if exist)
+- toArray - returns array that contains values from nodes
 
 ## Exercise 3
 Implement method that reverses linked list in place.
+
+## Exercise 4 
+Implement a two new methods in list class:
+- getKth - returns k'th value
+- getKthFromTheEnd - returns k'th value from the end. Don't use variable that stores size of array to stop iteration.

@@ -89,6 +89,27 @@ public class LinkedList<E> implements Iterable<E>{
         }
     }
 
+    public E getKth(int index) {
+        var result = get(index);
+        if(result == null || result.value == null) {
+            throw new IndexOutOfBoundsException();
+        }
+        return result.value;
+    }
+
+    public E getKthFromTheEnd(int index) {
+        var current = head;
+        var guard = get(index - 1);
+        if(guard == null || guard.value == null){
+            throw new IndexOutOfBoundsException();
+        }
+        while(guard.next != null){
+            guard = guard.next;
+            current = current.next;
+        }
+        return current.value;
+    }
+
     public String toString(){
         var stringRepresentation = new StringBuilder();
         stringRepresentation.append("[ ");
