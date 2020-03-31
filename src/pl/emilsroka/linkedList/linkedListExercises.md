@@ -18,9 +18,11 @@ Implement below methods:
 - toArray - returns array that contains values from nodes
 
 ## Exercise 3
-Implement method that reverses linked list in place.
+Implement method that reverses linked list in place. Time complexity should be O(n)
 
 ## Exercise 4 
 Implement a two new methods in list class:
-- getKth - returns k'th value
-- getKthFromTheEnd - returns k'th value from the end. Don't use variable that stores size of array to stop iteration.
+- get - returns n'th value from the start of list.
+- getFromTheEnd - returns n'th value from the end.
+
+Don't use variable that stores size of array to stop iteration. You can index from 0 or 1. Time complexity should be O(n) 

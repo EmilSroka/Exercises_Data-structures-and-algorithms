@@ -13,11 +13,14 @@ public class LinkedList<E> implements Iterable<E>{
             throw new IndexOutOfBoundsException();
         }
 
-        var newNode = new Node(value);
-        var previous = get(index - 1);
-        insert(previous, newNode);
+        var siblings = getNewSiblings(index);
+        var previous = (Node<E>)siblings[0];
+        var next = (Node<E>)siblings[1];
+        var newNode = new Node<>(value);
 
-        handleHead(previous, newNode, index);
+        insert(previous, newNode, next);
+
+        handleHead(newNode, index);
         handleTail(newNode, index);
         length += 1;
 
@@ -37,14 +40,16 @@ public class LinkedList<E> implements Iterable<E>{
             throw new NoSuchElementException();
         }
 
-        var previous = get(index - 1);
-        var current = previous.next;
+        var siblings = getSiblings(index);
+        var previous = (Node<E>)siblings[0];
+        var current = (Node<E>)siblings[1];
+        var next = (Node<E>)siblings[2];
 
-        handleHead(current, current.next, index);
         remove(previous, current);
-        length -= 1;
-        handleTailOnDeletion(previous, index);
 
+        handleHead(next, index);
+        handleTail(previous, index+1);
+        length -= 1;
 
         return this;
     }
@@ -55,10 +60,6 @@ public class LinkedList<E> implements Iterable<E>{
 
     public LinkedList<E> deleteLast(){
         return delete(length - 1);
-    }
-
-    public boolean contains(E value){
-        return indexOf(value) != -1;
     }
 
     public int indexOf(E value){
@@ -72,41 +73,44 @@ public class LinkedList<E> implements Iterable<E>{
         return -1;
     }
 
+    public boolean contains(E value){
+        return indexOf(value) != -1;
+    }
+
     public int size(){
         return length;
     }
 
     public void reverse() {
-        reverse(head);
+        reversePart(head);
         swapHeadAndTail();
     }
 
-    private void reverse(Node start){
-        if(start != null && start.next != null){
-            reverse(start.next);
-            start.next.next = start;
-            start.next = null;
+    public E get(int index) {
+        if(index == length - 1){
+            return tail.value;
         }
+
+        var iterator = new LinkedListIterator();
+        while(iterator.hasNext()){
+            var value = iterator.next();
+            if(iterator.getIndex() == index){
+                return value;
+            }
+        }
+
+        throw new IndexOutOfBoundsException();
     }
 
-    public E getKth(int index) {
-        var result = get(index);
-        if(result == null || result.value == null) {
-            throw new IndexOutOfBoundsException();
-        }
-        return result.value;
-    }
-
-    public E getKthFromTheEnd(int index) {
+    public E getFromTheEnd(int index) {
         var current = head;
-        var guard = get(index - 1);
-        if(guard == null || guard.value == null){
-            throw new IndexOutOfBoundsException();
-        }
+        var guard = getGuard(index, current);
+
         while(guard.next != null){
             guard = guard.next;
             current = current.next;
         }
+
         return current.value;
     }
 
@@ -135,26 +139,120 @@ public class LinkedList<E> implements Iterable<E>{
         return array;
     }
 
-    private Node<E> get(int index) throws IndexOutOfBoundsException{
-        if(index < -1 || index >= length){
-            return null;
-        } else if(index == -1){
-            return new Node(null, head);
-        }else if(index == length - 1){
-            return tail;
-        } else {
-            var iterator = new LinkedListIterator();
+    /* helpers */
 
-            while(iterator.hasNext()){
-                iterator.next();
-                if(iterator.getIndex() == index){
-                    return iterator.getNode();
-                }
-            }
+    private boolean correctInsertionPosition(int index){
+        return index >= 0 && index <= length;
+    }
+
+    private Object[] getNewSiblings(int destination){
+        var iterator = new LinkedListIterator();
+        int currentIndex = -1;
+
+        Node<E> previous = null;
+        Node<E> next = null;
+
+        while(currentIndex < destination && iterator.hasNext()){
+            iterator.next();
+            currentIndex++;
+
+            previous = next;
+            next = iterator.getNode();
         }
 
-        return null; // fallback
+        if(currentIndex < destination){
+            previous = next;
+            next = null;
+        }
+
+        return new Object[]{ previous, next };
     }
+
+    private void insert(Node predecessor, Node newNode, Node next){
+        if(predecessor != null){
+            predecessor.next = newNode;
+        }
+        newNode.next = next;
+    }
+
+    private void handleHead(Node<E> element, int index){
+        if( index == 0 ){
+            head = element;
+        }
+    }
+
+    private void handleTail(Node<E> element, int index){
+        if(index == length){
+            tail = element;
+        }
+    }
+
+    private boolean correctDeletionPosition(int index){
+        return index >= 0 && index < length;
+    }
+
+    private Object[] getSiblings(int position){
+        var iterator = new LinkedListIterator();
+        int currentIndex = -2;
+
+        Node<E> previous = null;
+        Node<E> current = null;
+        Node<E> next = null;
+
+        while(currentIndex < position && iterator.hasNext()){
+            iterator.next();
+            currentIndex++;
+
+            previous = current;
+            current = next;
+            next = iterator.getNode();
+        }
+
+        if(currentIndex < position){
+            previous = current;
+            current = next;
+            next = null;
+        }
+
+        return new Object[]{ previous, current, next };
+    }
+
+    private void remove(Node predecessor, Node element){
+        if(predecessor != null){
+            predecessor.next = element.next;
+        }
+        element.next = null;
+    }
+
+    private void reversePart(Node start){
+        if(start != null && start.next != null){
+            reversePart(start.next);
+            start.next.next = start;
+            start.next = null;
+        }
+    }
+
+    private void swapHeadAndTail(){
+        var tmp = head;
+        head = tail;
+        tail = tmp;
+    }
+
+    private Node<E> getGuard(int offset, Node<E> start){
+        Node<E> guard = start;
+        while(offset > 0 && guard != null && guard.next != null){
+            guard = guard.next;
+            offset -= 1;
+        }
+
+        if(offset > 0){
+            throw new IndexOutOfBoundsException();
+        }
+
+        return guard;
+    }
+
+    /* structures */
 
     @Override
     public Iterator<E> iterator() {
@@ -173,7 +271,7 @@ public class LinkedList<E> implements Iterable<E>{
 
             if(hasNext()){
                 current = current.next;
-                index++;
+                index += 1;
                 return current.value;
             }
             return null;
@@ -205,54 +303,4 @@ public class LinkedList<E> implements Iterable<E>{
         public E value;
         public Node<E> next;
     }
-
-    /* helpers */
-    private boolean correctInsertionPosition(int index){
-        return index >= 0 && index <= length;
-    }
-
-    private boolean correctDeletionPosition(int index){
-        return index >= 0 && index < length;
-    }
-
-    private void swapHeadAndTail(){
-        var tmp = head;
-        head = tail;
-        tail = tmp;
-    }
-
-    private void insert(Node predecessor, Node element){
-        if(predecessor != null){
-            element.next = predecessor.next;
-            predecessor.next = element;
-        }
-    }
-
-    private void remove(Node predecessor, Node element){
-        if(predecessor != null){
-            predecessor.next = element.next;
-        }
-        element.next = null;
-    }
-
-    private void handleHead(Node previous, Node newHead, int index){
-        if( index == 0 ){
-            head = newHead;
-            previous.next = null; // Only due to java garbage collector
-        }
-    }
-
-    private void handleTail(Node newElement, int index){
-        if(index == length){
-            tail = newElement;
-        }
-    }
-    private void handleTailOnDeletion(Node newElement, int index){
-        if(length == 0){
-            tail = null;
-        } else if(index == length){
-            tail = newElement;
-        }
-    }
-
 }
