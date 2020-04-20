@@ -26,3 +26,8 @@ Implement a two new methods in list class:
 - getFromTheEnd - returns n'th value from the end.
 
 Don't use variable that stores size of array to stop iteration. You can index from 0 or 1. Time complexity should be O(n) 
+
+## Exercise 5 
+Add method getMiddleElements that finds the middle of a linked list in one pass. If the list has an even number of nodes, there would be two middle nodes.  
+Note: Assume that you don’t know the size of the list ahead of time
+

@@ -114,6 +114,31 @@ public class LinkedList<E> implements Iterable<E>{
         return current.value;
     }
 
+    public Object[] getMiddleElements(){
+        if(length == 0){
+            throw new NoSuchElementException();
+        }
+
+        var slow = head;
+        var fast = head;
+        var evenIteration = true;
+
+        while(fast != null && fast.next != null){
+            evenIteration = !evenIteration;
+            if(evenIteration){
+                slow = slow.next;
+            }
+            fast = fast.next;
+        }
+
+        if(evenIteration){
+            return new Object[] {slow.value};
+        } else {
+            return new Object[] {slow.value, slow.next.value};
+        }
+
+    }
+
     public String toString(){
         var stringRepresentation = new StringBuilder();
         stringRepresentation.append("[ ");
