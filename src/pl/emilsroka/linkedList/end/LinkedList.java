@@ -139,6 +139,32 @@ public class LinkedList<E> implements Iterable<E>{
 
     }
 
+    public E getLoopStart(){
+        // Floyd’s Cycle-finding Algorithm
+        var tortoise = head;
+        var hare = head;
+
+        do{
+            if(hare == null || hare.next == null)
+                return null;
+
+            hare = hare.next.next;
+            tortoise = tortoise.next;
+        } while(hare != tortoise);
+
+        hare = head;
+        while(hare != tortoise){
+            hare = hare.next;
+            tortoise = tortoise.next;
+        }
+
+        return tortoise.value;
+    }
+
+    public boolean hasLoop(){
+        return getLoopStart() != null;
+    }
+
     public String toString(){
         var stringRepresentation = new StringBuilder();
         stringRepresentation.append("[ ");

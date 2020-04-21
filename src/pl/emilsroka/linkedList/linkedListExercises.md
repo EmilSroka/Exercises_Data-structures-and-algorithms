@@ -31,3 +31,7 @@ Don't use variable that stores size of array to stop iteration. You can index fr
 Add method getMiddleElements that finds the middle of a linked list in one pass. If the list has an even number of nodes, there would be two middle nodes.  
 Note: Assume that you don’t know the size of the list ahead of time
 
+## Exercise 6 
+Implement a two methods in list class:
+- hasLoop - checks if list has a loop. Returns boolean.
+- getLoopStart - returns first element of loop or null (if loop not exist).
