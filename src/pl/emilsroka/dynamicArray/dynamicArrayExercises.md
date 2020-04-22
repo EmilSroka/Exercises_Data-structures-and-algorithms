@@ -38,3 +38,6 @@ Implement bubble sort. Use strategy pattern to extract algorithm to its own obje
 
 ## Exercise 7
 Create new strategies for selection and insertion sort.
+
+## Exercise 8
+Create new object for merge sort.
