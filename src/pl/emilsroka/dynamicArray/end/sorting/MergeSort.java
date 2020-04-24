@@ -15,10 +15,6 @@ public class MergeSort<E extends Comparable<E>> implements SortingStrategy {
         join(array, firstIndex, parts[0], parts[1]);
     }
 
-    private int length(int first, int last){
-        return last - first + 1;
-    }
-
     private Object[][] divide(Object[] array, int firstIndex, int lastIndex){
         int mid = firstIndex + length(firstIndex, lastIndex) / 2;
         var leftPart = Arrays.copyOfRange(array, firstIndex, mid);

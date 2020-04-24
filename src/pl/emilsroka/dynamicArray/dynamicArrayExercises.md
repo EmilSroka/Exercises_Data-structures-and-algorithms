@@ -41,3 +41,6 @@ Create new strategies for selection and insertion sort.
 
 ## Exercise 8
 Create new object for merge sort.
+
+## Exercise 9
+Implement quicksort. Check the difference between Lomuto and Hoare partition scheme (and pick one for implementation).

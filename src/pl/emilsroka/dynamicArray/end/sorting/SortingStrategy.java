@@ -16,4 +16,8 @@ public interface SortingStrategy<E extends Comparable<E>> {
     default boolean isGraterOrEqual(Object a, Object b){
         return ((E)a).compareTo((E)b) >= 0;
     }
+
+    default int length(int first, int last){
+        return last - first + 1;
+    }
 }
