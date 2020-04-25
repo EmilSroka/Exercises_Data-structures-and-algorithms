@@ -40,7 +40,10 @@ Implement bubble sort. Use strategy pattern to extract algorithm to its own obje
 Create new strategies for selection and insertion sort.
 
 ## Exercise 8
-Create new object for merge sort.
+Create a new object for merge sort.
 
 ## Exercise 9
 Implement quicksort. Check the difference between Lomuto and Hoare partition scheme (and pick one for implementation).
+
+## Exercise 10
+Create a new object that implements heapsort.
