@@ -1,18 +1,18 @@
 package pl.emilsroka.stack.end;
 
 public class ArrayStack<E> {
-    private Object[] list;
+    private Object[] array;
     private int size = 0;
 
     public ArrayStack(int size){
-        list = new Object[size];
+        array = new Object[size];
     }
 
     public int push(E element){
-        if(size == list.length)
+        if(size == array.length)
             throw new StackOverflowError();
 
-        list[size] = element;
+        array[size] = element;
         size += 1;
         return size;
     }
@@ -22,14 +22,14 @@ public class ArrayStack<E> {
             throw new IllegalStateException();
 
         size -= 1;
-        return (E)list[size];
+        return (E)array[size];
     }
 
     public E peek(){
         if(empty())
             throw new IllegalStateException();
 
-        return (E)list[size - 1];
+        return (E)array[size - 1];
     }
 
     public boolean empty(){
