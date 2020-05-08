@@ -17,3 +17,6 @@ Implement a stack using an array. `ArrayStack` class should have these methods:
 Implement two stacks in one array. Support these operations:  
 `push1`, `push2`, `pop1`, `pop2`, `empty1`, `empty2`, `isFull`  
 Make sure your implementation is space efficient.
+
+## Exercise 5
+Design a `MinStack` that supports `push`, `pop` and `min` that retrieving the minimum value in constant time.
