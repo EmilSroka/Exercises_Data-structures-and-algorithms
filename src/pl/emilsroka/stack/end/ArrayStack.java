@@ -9,7 +9,7 @@ public class ArrayStack<E> {
     }
 
     public int push(E element){
-        if(size == array.length)
+        if(full())
             throw new StackOverflowError();
 
         array[size] = element;
@@ -36,4 +36,7 @@ public class ArrayStack<E> {
         return size == 0;
     }
 
+    public boolean full(){
+        return size == array.length;
+    }
 }

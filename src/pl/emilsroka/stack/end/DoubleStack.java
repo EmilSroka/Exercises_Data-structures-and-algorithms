@@ -13,7 +13,7 @@ public class DoubleStack<E> {
     }
 
     public int push1(E element){
-        if(isFull())
+        if(full())
             throw new StackOverflowError();
 
         array[size1] = element;
@@ -41,7 +41,7 @@ public class DoubleStack<E> {
     }
 
     public int push2(E element){
-        if(isFull())
+        if(full())
             throw new StackOverflowError();
 
         array[size1] = element;
@@ -68,7 +68,7 @@ public class DoubleStack<E> {
         return size2 == 0;
     }
 
-    private boolean isFull(){
+    private boolean full(){
         return size1 + size2 == array.length;
     }
 

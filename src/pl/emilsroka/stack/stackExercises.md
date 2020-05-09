@@ -12,11 +12,19 @@ Implement a stack using an array. `ArrayStack` class should have these methods:
 - `pop` - returns a top element from the stack and removes it
 - `peek` - returns a top element from the stack
 - `empty` - returns boolean that indicates if the stack is empty
+- `full` - returns boolean that indicates if the stack is full
 
 ## Exercise 4
 Implement two stacks in one array. Support these operations:  
-`push1`, `push2`, `pop1`, `pop2`, `empty1`, `empty2`, `isFull`  
+`push1`, `push2`, `pop1`, `pop2`, `empty1`, `empty2`, `full`  
 Make sure your implementation is space efficient.
 
 ## Exercise 5
 Design a `MinStack` that supports `push`, `pop` and `min` that retrieving the minimum value in constant time.
+
+## Exercise 6  
+Implement a stack using a linked list. `LinkedListStack` class should have these methods:
+- `push` - add an element to a stack. Returns itself
+- `pop` - returns a top element from the stack and removes it
+- `peek` - returns a top element from the stack
+- `empty` - returns boolean that indicates if the stack is empty
